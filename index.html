@@ -157,6 +157,163 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Ink">
+      <meta itemprop="description" content="淡泊明志，宁静致远。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="InkTank">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/17/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/" class="post-title-link" itemprop="url">状态压缩</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-17 20:38:28 / 修改时间：21:23:39" itemprop="dateCreated datePublished" datetime="2021-10-17T20:38:28+08:00">2021-10-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="状态压缩"><a href="#状态压缩" class="headerlink" title="状态压缩"></a>状态压缩</h1><p>这篇文章源于<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/count-number-of-maximum-bitwise-or-subsets/">5904.统计按位或能得到最大值的子集数目</a></p>
+<p>因为我不会写，所以我翻了题解，找了答案，然后遇到了一个崭新的名词解释。</p>
+<p>那么</p>
+<ul>
+<li><h3 id="什么是状态压缩？"><a href="#什么是状态压缩？" class="headerlink" title="什么是状态压缩？"></a>什么是状态压缩？</h3><p>状态压缩，顾名思义，实质上是对对象状态表达的数据量进行压缩表达。</p>
+<p>举例而言，假设这里有一扇门，它有开门，关门两种状态，分别使用1和0表示。这就是状态压缩。</p>
+<p>开门-&gt;1</p>
+<p>关门-&gt;0</p>
+<p>当我们执行开门动作时，0+1=1，门开了。</p>
+<p>反之，当我们执行关门动作时，1-1=0，门关了。</p>
+<p>上述的例子从一个复杂的表达状态转换成了一个1和0的问题。但是状态压缩的能力却不止于此，01二进制用来可以表达的信息量巨大。</p>
+<p>比如Int类型32位，每个数代表一种状态，就可以表达上亿种状态，虽然实质上我们并不需要这么多。</p>
+<p>状态压缩适用于数据量大，但每个构成个体相对简单的情况。</p>
+</li>
+</ul>
+<p>好，1+1=2，你懂了，我也懂了，现在让我们来解一下这个不定积分问题。(5904我单独写了一篇博文，就不水了。)</p>
+<ul>
+<li><h3 id="优美的排列"><a href="#优美的排列" class="headerlink" title="优美的排列"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/beautiful-arrangement/">优美的排列</a></h3></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/17/LeetCode5904-%E7%BB%9F%E8%AE%A1%E6%8C%89%E4%BD%8D%E6%88%96%E8%83%BD%E5%BE%97%E5%88%B0%E6%9C%80%E5%A4%A7%E5%80%BC%E7%9A%84%E5%AD%90%E9%9B%86%E6%95%B0%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Ink">
+      <meta itemprop="description" content="淡泊明志，宁静致远。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="InkTank">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/17/LeetCode5904-%E7%BB%9F%E8%AE%A1%E6%8C%89%E4%BD%8D%E6%88%96%E8%83%BD%E5%BE%97%E5%88%B0%E6%9C%80%E5%A4%A7%E5%80%BC%E7%9A%84%E5%AD%90%E9%9B%86%E6%95%B0%E7%9B%AE/" class="post-title-link" itemprop="url">LeetCode5904 统计按位或能得到最大值的子集数目</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-17 20:01:29 / 修改时间：20:04:33" itemprop="dateCreated datePublished" datetime="2021-10-17T20:01:29+08:00">2021-10-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/count-number-of-maximum-bitwise-or-subsets/">LeetCode5904 统计按位或能得到最大值的子集数目</a></p>
+<blockquote>
+<p>周赛题目，我没有写出来，中等难度，学习一下大佬的题解。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/17/LeetCode230-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%AD%E7%AC%ACK%E5%B0%8F%E7%9A%84%E5%85%83%E7%B4%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -182,7 +339,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-10-17 14:25:36 / 修改时间：15:08:00" itemprop="dateCreated datePublished" datetime="2021-10-17T14:25:36+08:00">2021-10-17</time>
+              <time title="创建时间：2021-10-17 14:25:36 / 修改时间：20:02:46" itemprop="dateCreated datePublished" datetime="2021-10-17T14:25:36+08:00">2021-10-17</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,7 +435,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-17 15:20:50" itemprop="dateModified" datetime="2021-10-17T15:20:50+08:00">2021-10-17</time>
+                <time title="修改时间：2021-10-17 15:39:43" itemprop="dateModified" datetime="2021-10-17T15:39:43+08:00">2021-10-17</time>
               </span>
 
           
@@ -377,7 +534,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -390,7 +547,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
