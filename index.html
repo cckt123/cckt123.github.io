@@ -256,7 +256,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-10-18 13:16:03 / 修改时间：15:28:50" itemprop="dateCreated datePublished" datetime="2021-10-18T13:16:03+08:00">2021-10-18</time>
+              <time title="创建时间：2021-10-18 13:16:03 / 修改时间：15:41:45" itemprop="dateCreated datePublished" datetime="2021-10-18T13:16:03+08:00">2021-10-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -284,10 +284,10 @@
 
       
           <h1 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h1><blockquote>
-<p>这篇文章诞生于一次失败的面试</br><br>面试官：哈希表你知道吗？</br><br>我：嗯</br><br>面试官：讲一讲他的底层？</br><br>我：balabala</br><br>面试官：emmm?</br><br>面试官：具体怎么获取哈希值你知道吗？</br><br>我：…</br><br>面试官：你有手写过哈希表吗？</br><br>我：…</br></p>
+<p>这篇文章诞生于一次失败的面试<br>面试官：哈希表你知道吗？<br>我：嗯<br>面试官：讲一讲他的底层？<br>我：balabala<br>面试官：emmm?<br>面试官：具体怎么获取哈希值你知道吗？<br>我：…<br>面试官：你有手写过哈希表吗？<br>我：…</p>
 </blockquote>
 <h2 id="什么是哈希表？"><a href="#什么是哈希表？" class="headerlink" title="什么是哈希表？"></a>什么是哈希表？</h2><blockquote>
-<p>哈希表又称散列表，采取对应的方式，将一个值转换为数组下标，然后提供对应的数组值。</br><br>前者作为下标的值被称之为 **[键]**，被对应的后者称之为 **[值]**。</br></p>
+<p>哈希表又称散列表，采取对应的方式，将一个值转换为数组下标，然后提供对应的数组值。<br>前者作为下标的值被称之为 **[键]**，被对应的后者称之为 **[值]**。</p>
 </blockquote>
 <h2 id="哈希表查询的时间复杂度？"><a href="#哈希表查询的时间复杂度？" class="headerlink" title="哈希表查询的时间复杂度？"></a>哈希表查询的时间复杂度？</h2><blockquote>
 <p>插入和查找的时间复杂度都是为O(1)，当他被填满的时候，哈希表查询的速度会下降，但大多数情况可以认为是O(1)。</p>
@@ -297,19 +297,19 @@
 </blockquote>
 <h2 id="如何计算哈希值？"><a href="#如何计算哈希值？" class="headerlink" title="如何计算哈希值？"></a>如何计算哈希值？</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">inline</span> <span class="keyword">size_t</span></span><br><span class="line">__stl_hash_string(<span class="keyword">const</span> <span class="keyword">char</span>* __s)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">long</span> __h = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( ; *__s; ++__s)</span><br><span class="line">    __h = <span class="number">5</span> * __h + *__s;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">size_t</span>(__h);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>让我们来看看C++__gnu_cxx是怎么做的。</br><br>其中size_t是标准C库中定义的，在64位系统中为long long unsigned int，非64位系统中为long unsigned int。</br><br>好，很简单，我都有些怀疑我面试的适合在干啥。</br></p>
+<p>让我们来看看C++__gnu_cxx是怎么做的。<br>其中size_t是标准C库中定义的，在64位系统中为long long unsigned int，非64位系统中为long unsigned int。<br>好，很简单，我都有些怀疑我面试的适合在干啥。</p>
 </blockquote>
 <h2 id="其他常规的构造哈希函数方法"><a href="#其他常规的构造哈希函数方法" class="headerlink" title="其他常规的构造哈希函数方法?"></a>其他常规的构造哈希函数方法?</h2><ol>
 <li>除留取余法<blockquote>
-<p>f(key)=key % p, p≤m</br><br>取余，保证在哈希表区间长度即可。</br></p>
+<p>f(key)=key % p, p≤m<br>取余，保证在哈希表区间长度即可。</p>
 </blockquote>
 </li>
 <li>直接定址法<blockquote>
-<p>f(key)=key || f(key)=a*key+b。</br><br>顾名思义，直接取值。</br></p>
+<p>f(key)=key || f(key)=a*key+b。<br>顾名思义，直接取值。</p>
 </blockquote>
 </li>
 <li>数字分析法<blockquote>
-<p>假设关键字是以为基的数（如以10为基的十进制数），并且哈希表中可能出现的关键字都是事先知道的，则可以选取关键字的若干位数组成哈希表。</br></p>
+<p>假设关键字是以为基的数（如以10为基的十进制数），并且哈希表中可能出现的关键字都是事先知道的，则可以选取关键字的若干位数组成哈希表。</p>
 </blockquote>
 </li>
 </ol>
@@ -318,19 +318,19 @@
 </blockquote>
 <ol>
 <li>链地址法<blockquote>
-<p>链地址,哈希冲突之后，将相同的值填入链表。插在链表头就是头插法，插在尾部就是尾插法。</br><br>如果当哈希值都一样，哈希表会退化成链表，这个时候的解决方案是将链地址法搞成红黑树法。至于手撕红黑树嘛….下次一定。</br></p>
+<p>链地址,哈希冲突之后，将相同的值填入链表。插在链表头就是头插法，插在尾部就是尾插法。<br>如果当哈希值都一样，哈希表会退化成链表，这个时候的解决方案是将链地址法搞成红黑树法。至于手撕红黑树嘛….下次一定。</p>
 </blockquote>
 </li>
 <li>再哈希法<blockquote>
-<p>冲突了，再选另一个哈希函数，计算哈希值，直到不发生冲突。</br></p>
+<p>冲突了，再选另一个哈希函数，计算哈希值，直到不发生冲突。</p>
 </blockquote>
 </li>
 <li>开放定址法<blockquote>
-<p>冲突了，继续找哈希表中的其他存储单元，直到找到空位置，塞进去。</br> </p>
+<p>冲突了，继续找哈希表中的其他存储单元，直到找到空位置，塞进去。 </p>
 </blockquote>
 </li>
 <li>公共溢出区<blockquote>
-<p>专门维护一个溢出表，冲突了，丢进去。</br> </p>
+<p>专门维护一个溢出表，冲突了，丢进去。 </p>
 </blockquote>
 </li>
 </ol>
