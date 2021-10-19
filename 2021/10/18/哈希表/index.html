@@ -28,7 +28,7 @@
 <meta property="og:description" content="哈希表 这篇文章诞生于一次失败的面试面试官：哈希表你知道吗？我：嗯面试官：讲一讲他的底层？我：balabala面试官：emmm?面试官：具体怎么获取哈希值你知道吗？我：…面试官：你有手写过哈希表吗？我：…  什么是哈希表？ 哈希表又称散列表，采取对应的方式，将一个值转换为数组下标，然后提供对应的数组值。前者作为下标的值被称之为 **[键]**，被对应的后者称之为 **[值]**。  哈希表查询的时">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-10-18T05:16:03.000Z">
-<meta property="article:modified_time" content="2021-10-18T07:41:45.818Z">
+<meta property="article:modified_time" content="2021-10-18T11:39:06.196Z">
 <meta property="article:author" content="Ink">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="哈希表">
@@ -187,7 +187,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-10-18 13:16:03 / 修改时间：15:41:45" itemprop="dateCreated datePublished" datetime="2021-10-18T13:16:03+08:00">2021-10-18</time>
+              <time title="创建时间：2021-10-18 13:16:03 / 修改时间：19:39:06" itemprop="dateCreated datePublished" datetime="2021-10-18T13:16:03+08:00">2021-10-18</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,9 +265,13 @@
 </blockquote>
 </li>
 </ol>
-<h2 id="手撕哈希表？"><a href="#手撕哈希表？" class="headerlink" title="手撕哈希表？"></a><a target="_blank" rel="noopener" href="https://github.com/cckt123/CPPSTL">手撕哈希表？</a></h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/144296454">图文并茂详解数据结构之哈希表</a></p>
+<h2 id="哈希表的扩容？"><a href="#哈希表的扩容？" class="headerlink" title="哈希表的扩容？"></a>哈希表的扩容？</h2><p>  这里要提到一个扩容因子的概念。<br>  什么是扩容因子？<br>  举例而言，哈希表的容量为1，扩容因子为0.5，当哈希表内存在0.5个数被填入时，抵达上线，哈希表容量翻倍，变成2,原有数据挪到新表;</p>
+<h2 id="手撕哈希表？"><a href="#手撕哈希表？" class="headerlink" title="手撕哈希表？"></a><a target="_blank" rel="noopener" href="https://github.com/cckt123/CPPSTL">手撕哈希表？</a></h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>&#123;</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span>* argv[])</span></span>&#123;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; a=&#123;<span class="number">7</span>,<span class="number">17</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">9</span>,<span class="number">20</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>&#125;;</span><br><span class="line">    <span class="comment">/*设置一个长度为100的数组table*/</span></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">table</span><span class="params">(<span class="number">100</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line">    Solution hash;</span><br><span class="line">    hash.<span class="built_in">create_hash</span>(a,table);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/144296454">图文并茂详解数据结构之哈希表</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34247299/article/details/92209973">C++中现成的hash函数</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012835097/article/details/79407591">哈希函数</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_46551861/article/details/109632979?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-3.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-3.no_search_link">面试必问：手撕哈希表</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Jiangtagong/article/details/112347841">LeetCode:手撕哈希表算法</a></p>
 
     </div>
 
@@ -353,7 +357,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">哈希表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是哈希表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">哈希表查询的时间复杂度？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">什么是哈希函数？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E5%93%88%E5%B8%8C%E5%80%BC%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">如何计算哈希值？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%84%E7%9A%84%E6%9E%84%E9%80%A0%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">其他常规的构造哈希函数方法?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%EF%BC%9F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">如何解决哈希冲突？有哪几种方案？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E6%92%95%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%9F"><span class="nav-number">1.7.</span> <span class="nav-text">手撕哈希表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.8.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">哈希表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什么是哈希表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">哈希表查询的时间复杂度？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">什么是哈希函数？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97%E5%93%88%E5%B8%8C%E5%80%BC%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">如何计算哈希值？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%84%E7%9A%84%E6%9E%84%E9%80%A0%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E6%96%B9%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">其他常规的构造哈希函数方法?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81%EF%BC%9F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">如何解决哈希冲突？有哪几种方案？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8%E7%9A%84%E6%89%A9%E5%AE%B9%EF%BC%9F"><span class="nav-number">1.7.</span> <span class="nav-text">哈希表的扩容？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E6%92%95%E5%93%88%E5%B8%8C%E8%A1%A8%EF%BC%9F"><span class="nav-number">1.8.</span> <span class="nav-text">手撕哈希表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.9.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -376,13 +380,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
