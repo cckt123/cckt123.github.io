@@ -157,6 +157,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/31/17-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97(%E4%B8%80)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Ink">
+      <meta itemprop="description" content="淡泊明志，宁静致远。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="InkTank">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/31/17-%E5%BC%80%E5%8F%91%E6%97%A5%E5%BF%97(%E4%B8%80)/" class="post-title-link" itemprop="url">17-开发日志(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-31 19:03:36 / 修改时间：19:45:35" itemprop="dateCreated datePublished" datetime="2021-10-31T19:03:36+08:00">2021-10-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity/" itemprop="url" rel="index"><span itemprop="name">Unity</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="2021-10-31-雪"><a href="#2021-10-31-雪" class="headerlink" title="2021-10-31 雪"></a>2021-10-31 雪</h1><h2 id="踌躇满志"><a href="#踌躇满志" class="headerlink" title="踌躇满志"></a>踌躇满志</h2><blockquote>
+<p>这个项目还没有命名，它是莉莉丝制作人比赛的遗留，当时我们使用达芬奇引擎并没有完成这个游戏。很遗憾，结束之后，我一直在想，如果再来一次，，再给一次机会，我肯定会完成他。<br>我想过，但是我没有做，是当时队友给了我一个机会，他们计划重新补完她。<br>于是我顺水推舟，重新开始了这个项目的规划。<br>下面的内容是有关于这个项目的开发日志，每周会更新一篇博客，记录我走过的痕迹。</p>
+</blockquote>
+<h2 id="项目构筑"><a href="#项目构筑" class="headerlink" title="项目构筑"></a>项目构筑</h2><blockquote>
+<p>对于绘画而言，要先画出主干轮廓，再完善细节。程序设计也不外乎于此。<br>在项目设计之初，要考虑好可能会发生的情况，提前做出应对，预留程序拓展维护的空间。</p>
+</blockquote>
+<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><blockquote>
+<p>我们要去哪里？设计的目的是什么，决定了项目最根本的方向。</p>
+</blockquote>
+<ul>
+<li>2.5D像素画风-&gt;我需要一个或者多个2.5D的项目参考。</li>
+<li>恐怖元素-&gt;光照管理-&gt;LightManager-&gt;Unity提供了崭新的2D光照功能。</li>
+<li>解密元素-&gt;场景交互-&gt;因为需要提供给设计的队友，所以不能采用代码动态生成预制体的方案，需要保存场景。</li>
+<li>音乐制作-&gt;合适的时候需要播放音乐-&gt;单独提出一个MusicManager模块用于BGM和音效的管理。</li>
+<li>AI-&gt;我没有制作游戏AI的经验，需要参考一下。</li>
+<li>玩家控制-&gt;PlayerController-&gt;提供玩家角色控制。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>我初步计划使用一个事件队列来处理核心逻辑，按时间顺便来处理事件。<br>这样我需要设定一个事件类的接口，来定义事件的发生时间，处理方法。<br>人物状态机，人物状态接口，用于处理玩家的操作。<br>剧情阶段，存档，AI和光照需要我再去看看，找到一个合适的方案。</p>
+</blockquote>
+<h2 id="待执行事项"><a href="#待执行事项" class="headerlink" title="待执行事项"></a>待执行事项</h2><ol>
+<li>2.5D项目参考。</li>
+<li>光照管理-&gt;Unity的2D光照功能。</li>
+<li>剧情流程选择-&gt;我需要一个漂亮的解决方案。</li>
+<li>场景交互与保存-&gt;序列化保存以及反序列化人物信息。</li>
+<li>AI-&gt;我需要一个AI参考-&gt;行为树也许会有帮助？</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1DT4y1A7DJ?from=search&seid=4972906070361451338&spm_id_from=333.337.0.0">使用Unity制作“饥荒”风格的俯视角2.5D游戏</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/27/LeetCode301-%E5%88%A0%E9%99%A4%E6%97%A0%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -856,20 +953,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
