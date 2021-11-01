@@ -275,7 +275,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-01 21:41:48" itemprop="dateModified" datetime="2021-11-01T21:41:48+08:00">2021-11-01</time>
+                <time title="修改时间：2021-11-01 22:33:05" itemprop="dateModified" datetime="2021-11-01T22:33:05+08:00">2021-11-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -343,6 +343,22 @@
 <h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><blockquote>
 <p>其实今天比较摸，准备看看教程，重新调出来个漂亮的设计先，这个是实质性的教训，ifelse嵌套逻辑这种事情我可不会再搞第二次。<br>按照我的进度来算，今天应该可以搞定光照系统的概念，明天打开那个框架再看看情况。</p>
 </blockquote>
+<h2 id="光照"><a href="#光照" class="headerlink" title="光照"></a>光照</h2><h3 id="2D光照使用"><a href="#2D光照使用" class="headerlink" title="2D光照使用"></a>2D光照使用</h3><ol>
+<li>Window-&gt;PackageManager-&gt;LightweightRP</li>
+<li>设置渲染管线 Editor-&gt;ProjectSetings-&gt;Graphics-&gt;RenderPipelineAsset</li>
+<li>新建 Assets-&gt;Rendee</li>
+<li>Create-&gt;Rendering-&gt;LightweightRenderPipeline-&gt;PipelineAsset</li>
+<li>LightweightRenderPipelineAsset-&gt;RendererTyper-&gt;Custom</li>
+<li>Rendering-&gt;Create-&gt;Rendering-&gt;LightweightRenderPipeline-&gt;2DRenderer</li>
+<li>Editor-&gt;RenderPipeline-&gt;LightweightRenderPipeline-&gt;2DRenderer-&gt;UpgradeProjectto2DRenderer</li>
+</ol>
+<h3 id="2-5D光照方案"><a href="#2-5D光照方案" class="headerlink" title="2.5D光照方案"></a>2.5D光照方案</h3><ol>
+<li>Window-&gt;PackageManager-&gt;2DSprite</li>
+<li>Window-&gt;PackageManager-&gt;PostProcessing</li>
+<li>Create-&gt;Materal-&gt;Stander-&gt;Smooth-&gt;0</li>
+<li>Material-&gt;RenderinngMode-&gt;Cutout</li>
+<li>Inser-&gt;Debug-&gt;SpiterRender-&gt;CastShader</li>
+</ol>
 
       
     </div>
