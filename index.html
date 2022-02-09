@@ -197,13 +197,13 @@
 
       
           <h2 id="HDR"><a href="#HDR" class="headerlink" title="HDR?"></a>HDR?</h2><p>常见的图片格式，例如jpg/png可以在广义上被划分为LDR，低动态范围图像。LDR这个概念为8位图片。有RGB三通道，每个通道2^8种灰度值。但LDR这个范围有它的局限性。LDR可以表现出我们大部分常见的图片色彩，但在人类的视觉的范畴，许多色彩在LDR之中并没有呈现，相应的就有了HDR，单通道位数超过8位，常见有12/16位，相应可呈现的图片色彩呈指数级上升，计算方式为2^16^3。</p>
-<h3 id="如何设置HDR？"><a href="#如何设置HDR？" class="headerlink" title="如何设置HDR？"></a>如何设置HDR？</h3><p><img src="/.com//HDRSET.png" alt="HDRSet"></p>
+<h3 id="如何设置HDR？"><a href="#如何设置HDR？" class="headerlink" title="如何设置HDR？"></a>如何设置HDR？</h3><p><img src="/.com//02/09/HDR-ToneMapping-Bloom/HDRSET.png" alt="HDRSet"></p>
 <p>如图，默认Camera使用HDR是Use Graphics Settings，Graphics在默认平台下的HDR不一定是打开的，具体而言可以在其面板自行设置，也可以直接修改Camera下的HDR设置用于关闭HDR选项。</p>
-<p><img src="/.com//GraphicsSet.png"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/GraphicsSet.png"></p>
 <h2 id="ToneMapping"><a href="#ToneMapping" class="headerlink" title="ToneMapping?"></a>ToneMapping?</h2><p>我们有了HDR，但是使用的时候涉及到问题，HDR是一个相对宽泛的概念，她<strong>常见</strong>可能就有12/16位两种，<strong>即使</strong>高端的显示器材可以呈现HDR，也需要考虑是哪一类型的HDR。因而如何将复杂的<strong>HDR图片转换为LDR图片</strong>格式显示成为了课题。这种转换方式被称之为<strong>色调映射（ToneMapping）</strong>。 而对于Unity而言，Unity（2019.4.8f1）当前<strong>不支持</strong>HDR<strong>显示</strong>。假定所有显示均为LDR sRGB。和上述HDR的设置有细微的差别，这里的支持显示是指不支持直接显示，但是可以通过HDR数据进行计算，利用HDR我们可以进行更高质量的LDR/sRGB显示。</p>
-<p><img src="/.com//HDR2LDR.jpg" alt="HDR2LDR"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/HDR2LDR.jpg" alt="HDR2LDR"></p>
 <p>常用的转换方式例如线性映射，可以将数据直接按比例讲HDR数据换算到LDR范畴。但显然，如果线性映射可以解决这个问题，就不需要这么长的篇幅介绍了。 </p>
-<p><img src="/.com//LinearMap.jpg" alt="LinearMap"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/LinearMap.jpg" alt="LinearMap"></p>
 <p>这里借用一张图片，上方图片为线性映射之后得到的结果，可以很明显的观察到台灯的亮度超出合理的阈值，阴影遮蔽了不少有效信息。总结来说，图片中亮的地方太亮，暗的地方太暗。他需要更好的映射方式来处理高光和灰暗的部分。</p>
 <p>到这里为止，我们对ToneMapping有了一个直观的概念，然后这里有一段对他相对书面而缜密的解释。</p>
 <p>Tone Mapping原是摄影学中的一个术语，因为打印相片所能表现的亮度范围不足以表现现实世界中的亮度域，而如果简单的将真实世界的整个亮度域线性压缩到照片所能表现的亮度域内，则会在明暗两端同时丢失很多细节，这显然不是所希望的效果，Tone Mapping就是为了克服这一情况而存在的，既然相片所能呈现的亮度域有限则我们可以根据所拍摄场景内的整体亮度通过光圈与曝光时间的长短来控制一个合适的亮度域，这样既保证细节不丢失，也可以不使照片失真。人的眼睛也是相同的原理，这就是为什么当我们从一个明亮的环境突然到一个黑暗的环境时，可以从什么都看不见到慢慢可以适应周围的亮度，所不同的是人眼是通过瞳孔来调节亮度域的。</p>
@@ -213,9 +213,9 @@
 
 <p>这种方式计算得出的结果可以观察到有效，但上面这段代码并没有更多原理解释。原文章称其为经验派，有种俺寻思能行的绿皮科技味道。</p>
 <p>这里给出他的数学公式与函数曲线。</p>
-<p><img src="/.com//ReinhardFormula.png" alt="RFormula"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/ReinhardFormula.png" alt="RFormula"></p>
 <p>Middlegrey为全屏幕或者部分屏幕的中间灰度，用于控制屏幕的亮度，在上方的代码之中可以看到作者直接将MiddleGrey设置为1，但实际上这个数值并没有固定的计算手段，而是由经验和效果来判断的。AvgLogLuminance就是全屏幕或部分屏幕的亮度的对数的平均值。</p>
-<p><img src="/.com//AvgLogLuminanceFormula.png"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/AvgLogLuminanceFormula.png"></p>
 <p>可以注意到，上述代码之中将adapted_lum也就是公式之中的avgLogLuminance作为传入参数处理。</p>
 <img src="/.com//ReinhardCurve.png" alt="ReinhardCurve" style="zoom:75%;">
 
@@ -239,11 +239,11 @@
 <h3 id="Academy-Color-Encoding-System"><a href="#Academy-Color-Encoding-System" class="headerlink" title="Academy Color Encoding System"></a><a href="https://link.zhihu.com/?target=http://www.oscars.org/science-technology/sci-tech-projects/aces">Academy Color Encoding System</a></h3><p>这种方案不同于以上三种，他单独创建了一套颜色编码系统，作为一种通用的数据交换方式，将不同的输入设备格式转换成为ACES，然后再在不同的设备上使用ACES来正常显示表达。我们只需要利用其中一小部分的转换逻辑，因为游戏渲染流程之中并没有图像输入设备的需求，我们可以直接得到需要渲染的图元数据，所以只要在ACES的基础上转到LDR或者另一个HDR就可以。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float3 <span class="title">ACESToneMapping</span><span class="params">(float3 color, <span class="keyword">float</span> adapted_lum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> A = <span class="number">2.51f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> B = <span class="number">0.03f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> C = <span class="number">2.43f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> D = <span class="number">0.59f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> E = <span class="number">0.14f</span>;</span><br><span class="line"></span><br><span class="line">	color *= adapted_lum;</span><br><span class="line">	<span class="keyword">return</span> (color * (A * color + B)) / (color * (C * color + D) + E);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/.com//ACESCurve.png" alt="ACESCurve"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/ACESCurve.png" alt="ACESCurve"></p>
 <p>更好的地方是，按照前面说的，ACES为的是解决所有设备之间的颜色空间转换问题。所以这个tone mapper不但可以用于HDR到LDR的转换，还可以用于从一个HDR转到另一个HDR。</p>
-<h3 id="卡通游戏的色彩变幻问题"><a href="#卡通游戏的色彩变幻问题" class="headerlink" title="卡通游戏的色彩变幻问题"></a>卡通游戏的色彩变幻问题</h3><p><img src="/.com//CT.png" alt="CT"></p>
+<h3 id="卡通游戏的色彩变幻问题"><a href="#卡通游戏的色彩变幻问题" class="headerlink" title="卡通游戏的色彩变幻问题"></a>卡通游戏的色彩变幻问题</h3><p><img src="/.com//02/09/HDR-ToneMapping-Bloom/CT.png" alt="CT"></p>
 <h2 id="Bloom"><a href="#Bloom" class="headerlink" title="Bloom?"></a>Bloom?</h2><p>Bloom直译为绽放，在这里的含义为后期特效中的泛光/辉光。</p>
-<p><img src="/.com//Bloom.jpg" alt="Bloom"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/Bloom.jpg" alt="Bloom"></p>
 <p>如图，就是经典的Bloom效果展示，在强光部分会产生向外扩散的光晕，这个就是Bloom。</p>
 <p>Bloom的形状不一定是圆形，他和光圈的形状也有一定关联，具体他的形成原理请参照参考资料10<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27024300">光学系统像差杂谈（3）：理想的尽头</a>。</p>
 <h3 id="如何制造Bloom？"><a href="#如何制造Bloom？" class="headerlink" title="如何制造Bloom？"></a>如何制造Bloom？</h3><p>被我找到的方式有三种，第一种是计算超出阈值的高光像素，将其向外扩散，第二种就是使用高斯模糊来模拟Bloom，然后与原图像相叠加，第三种是采用盒式，实质上也是采取和原图像叠加的方式实现，相对高斯而言，这种方案性能上会稍好，但效果稍差。这里给出第二种方式与第三种方式。高斯模糊实质上是对一个像素周边的想去分配一个权重，然后按权重采样混合，得到最终值。如需了解高斯模糊的更相关内容，请参照参考资料11<a target="_blank" rel="noopener" href="https://www.cnblogs.com/invisible2/p/9177018.html">高斯模糊原理</a>。</p>
@@ -256,7 +256,7 @@
 
 
 <p>如图为5*5的滤波器，因为上述代码同样需要进行计算耗时，因而将其结果直接提出使用。</p>
-<p><img src="/.com//55%E6%BB%A4%E6%B3%A2%E5%99%A8.png" alt="55滤波器"></p>
+<p><img src="/.com//02/09/HDR-ToneMapping-Bloom/55%E6%BB%A4%E6%B3%A2%E5%99%A8.png" alt="55滤波器"></p>
 </li>
 <li><p>盒式过滤</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">half3 <span class="title">Sample</span><span class="params">(float2 uv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">tex2D</span>(_MainTex,uv).rgb;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">half3 <span class="title">BoxFilter</span><span class="params">(float2 uv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">      half2 upL,upR,downL,downR;</span><br><span class="line">                </span><br><span class="line">      upL =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">      upR =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">      downL =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">-1</span>,<span class="number">-1</span>);</span><br><span class="line">      downR =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">1</span>,<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">      half3 col =<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+upL)*<span class="number">0.25</span>;</span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+upR)*<span class="number">0.25</span>;</span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+downL)*<span class="number">0.25</span>;</span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+downR)*<span class="number">0.25</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> col;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
