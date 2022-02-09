@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="HDR?常见的图片格式，例如jpg&#x2F;png可以在广义上被划分为LDR，低动态范围图像。LDR这个概念为8位图片。有RGB三通道，每个通道2^8种灰度值。但LDR这个范围有它的局限性。LDR可以表现出我们大部分常见的图片色彩，但在人类的视觉的范畴，许多色彩在LDR之中并没有呈现，相应的就有了HDR，单通道位数超过8位，常见有12&#x2F;16位，相应可呈现的图片色彩呈指数级上升，计算方式为2^16^3。 如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDR_ToneMapping_Bloom">
+<meta property="og:url" content="http://example.com/2022/02/09/HDR-ToneMapping-Bloom/index.html">
+<meta property="og:site_name" content="InkTank">
+<meta property="og:description" content="HDR?常见的图片格式，例如jpg&#x2F;png可以在广义上被划分为LDR，低动态范围图像。LDR这个概念为8位图片。有RGB三通道，每个通道2^8种灰度值。但LDR这个范围有它的局限性。LDR可以表现出我们大部分常见的图片色彩，但在人类的视觉的范畴，许多色彩在LDR之中并没有呈现，相应的就有了HDR，单通道位数超过8位，常见有12&#x2F;16位，相应可呈现的图片色彩呈指数级上升，计算方式为2^16^3。 如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/.com//HDRSET.png">
+<meta property="og:image" content="http://example.com/.com//GraphicsSet.png">
+<meta property="og:image" content="http://example.com/.com//HDR2LDR.jpg">
+<meta property="og:image" content="http://example.com/.com//LinearMap.jpg">
+<meta property="og:image" content="http://example.com/.com//ReinhardFormula.png">
+<meta property="og:image" content="http://example.com/.com//AvgLogLuminanceFormula.png">
+<meta property="og:image" content="http://example.com/.com//ReinhardCurve.png">
+<meta property="og:image" content="http://example.com/.com//exp.png">
+<meta property="og:image" content="http://example.com/.com//CECure.png">
+<meta property="og:image" content="http://example.com/.com//FilmicToneMappingCure.png">
+<meta property="og:image" content="http://example.com/.com//ACESCurve.png">
+<meta property="og:image" content="http://example.com/.com//CT.png">
+<meta property="og:image" content="http://example.com/.com//Bloom.jpg">
+<meta property="og:image" content="http://example.com/.com//高斯模糊公式.png">
+<meta property="og:image" content="http://example.com/.com//55%E6%BB%A4%E6%B3%A2%E5%99%A8.png">
+<meta property="article:published_time" content="2022-02-09T07:18:37.000Z">
+<meta property="article:modified_time" content="2022-02-09T07:26:32.000Z">
+<meta property="article:author" content="Ink">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//HDRSET.png">
+
+<link rel="canonical" href="http://example.com/2022/02/09/HDR-ToneMapping-Bloom/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>HDR_ToneMapping_Bloom | InkTank</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">InkTank</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/09/HDR-ToneMapping-Bloom/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+      <meta itemprop="name" content="Ink">
+      <meta itemprop="description" content="淡泊明志，宁静致远。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="InkTank">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HDR_ToneMapping_Bloom
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-02-09 15:18:37 / 修改时间：15:26:32" itemprop="dateCreated datePublished" datetime="2022-02-09T15:18:37+08:00">2022-02-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="HDR"><a href="#HDR" class="headerlink" title="HDR?"></a>HDR?</h2><p>常见的图片格式，例如jpg/png可以在广义上被划分为LDR，低动态范围图像。LDR这个概念为8位图片。有RGB三通道，每个通道2^8种灰度值。但LDR这个范围有它的局限性。LDR可以表现出我们大部分常见的图片色彩，但在人类的视觉的范畴，许多色彩在LDR之中并没有呈现，相应的就有了HDR，单通道位数超过8位，常见有12/16位，相应可呈现的图片色彩呈指数级上升，计算方式为2^16^3。</p>
+<h3 id="如何设置HDR？"><a href="#如何设置HDR？" class="headerlink" title="如何设置HDR？"></a>如何设置HDR？</h3><p><img src="/.com//HDRSET.png" alt="HDRSet"></p>
+<p>如图，默认Camera使用HDR是Use Graphics Settings，Graphics在默认平台下的HDR不一定是打开的，具体而言可以在其面板自行设置，也可以直接修改Camera下的HDR设置用于关闭HDR选项。</p>
+<p><img src="/.com//GraphicsSet.png"></p>
+<h2 id="ToneMapping"><a href="#ToneMapping" class="headerlink" title="ToneMapping?"></a>ToneMapping?</h2><p>我们有了HDR，但是使用的时候涉及到问题，HDR是一个相对宽泛的概念，她<strong>常见</strong>可能就有12/16位两种，<strong>即使</strong>高端的显示器材可以呈现HDR，也需要考虑是哪一类型的HDR。因而如何将复杂的<strong>HDR图片转换为LDR图片</strong>格式显示成为了课题。这种转换方式被称之为<strong>色调映射（ToneMapping）</strong>。 而对于Unity而言，Unity（2019.4.8f1）当前<strong>不支持</strong>HDR<strong>显示</strong>。假定所有显示均为LDR sRGB。和上述HDR的设置有细微的差别，这里的支持显示是指不支持直接显示，但是可以通过HDR数据进行计算，利用HDR我们可以进行更高质量的LDR/sRGB显示。</p>
+<p><img src="/.com//HDR2LDR.jpg" alt="HDR2LDR"></p>
+<p>常用的转换方式例如线性映射，可以将数据直接按比例讲HDR数据换算到LDR范畴。但显然，如果线性映射可以解决这个问题，就不需要这么长的篇幅介绍了。 </p>
+<p><img src="/.com//LinearMap.jpg" alt="LinearMap"></p>
+<p>这里借用一张图片，上方图片为线性映射之后得到的结果，可以很明显的观察到台灯的亮度超出合理的阈值，阴影遮蔽了不少有效信息。总结来说，图片中亮的地方太亮，暗的地方太暗。他需要更好的映射方式来处理高光和灰暗的部分。</p>
+<p>到这里为止，我们对ToneMapping有了一个直观的概念，然后这里有一段对他相对书面而缜密的解释。</p>
+<p>Tone Mapping原是摄影学中的一个术语，因为打印相片所能表现的亮度范围不足以表现现实世界中的亮度域，而如果简单的将真实世界的整个亮度域线性压缩到照片所能表现的亮度域内，则会在明暗两端同时丢失很多细节，这显然不是所希望的效果，Tone Mapping就是为了克服这一情况而存在的，既然相片所能呈现的亮度域有限则我们可以根据所拍摄场景内的整体亮度通过光圈与曝光时间的长短来控制一个合适的亮度域，这样既保证细节不丢失，也可以不使照片失真。人的眼睛也是相同的原理，这就是为什么当我们从一个明亮的环境突然到一个黑暗的环境时，可以从什么都看不见到慢慢可以适应周围的亮度，所不同的是人眼是通过瞳孔来调节亮度域的。</p>
+<p>ToneMapping延伸到图形学领域，到目前为止，他的工作依然可以被描述为处理在明暗两端的信息丢失，只是原来所使用摄像曝光手段处理的部分被更换为了数学公式。</p>
+<h3 id="Reinhard-tone-mapping"><a href="#Reinhard-tone-mapping" class="headerlink" title="Reinhard tone mapping"></a>Reinhard tone mapping</h3><p>上张图片下方的方案显而易见的好很多，这种在图中被标记为New operator的方案实际上提出在2002年，被称之为Reinhard tone mapping。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float3 <span class="title">ReinhardToneMapping</span><span class="params">(float3 color, <span class="keyword">float</span> adapted_lum)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">float</span> MIDDLE_GREY = <span class="number">1</span>;</span><br><span class="line">    color *= MIDDLE_GREY / adapted_lum;</span><br><span class="line">    <span class="keyword">return</span> color / (<span class="number">1.0f</span> + color);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//color是线性的HDR颜色，adapted_lum是根据整个画面统计出来的亮度</span></span><br></pre></td></tr></table></figure>
+
+<p>这种方式计算得出的结果可以观察到有效，但上面这段代码并没有更多原理解释。原文章称其为经验派，有种俺寻思能行的绿皮科技味道。</p>
+<p>这里给出他的数学公式与函数曲线。</p>
+<p><img src="/.com//ReinhardFormula.png" alt="RFormula"></p>
+<p>Middlegrey为全屏幕或者部分屏幕的中间灰度，用于控制屏幕的亮度，在上方的代码之中可以看到作者直接将MiddleGrey设置为1，但实际上这个数值并没有固定的计算手段，而是由经验和效果来判断的。AvgLogLuminance就是全屏幕或部分屏幕的亮度的对数的平均值。</p>
+<p><img src="/.com//AvgLogLuminanceFormula.png"></p>
+<p>可以注意到，上述代码之中将adapted_lum也就是公式之中的avgLogLuminance作为传入参数处理。</p>
+<img src="/.com//ReinhardCurve.png" alt="ReinhardCurve" style="zoom:75%;">
+
+<p>实质上他的映射曲线如图，这种2002年的新方案将映射平滑，减少了最低和最高的占比部分，将极暗与极亮的部分所占比重降低，进而达到良好的映射效果。</p>
+<h3 id="CEToneMapping"><a href="#CEToneMapping" class="headerlink" title="CEToneMapping"></a>CEToneMapping</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float3 <span class="title">CEToneMapping</span><span class="params">(float3 color, <span class="keyword">float</span> adapted_lum)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> - <span class="built_in">exp</span>(-adapted_lum * color);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2007年孤岛危机推陈出新，更干脆的直接模拟了S曲线。</p>
+<p>exp是以e为底的指数函数计算，这么说可能比较模糊，但是上图之后就清晰了很多。</p>
+<img src="/.com//exp.png" alt="exp" style="zoom:50%;">
+
+<p>这个函数图像很亲切，我们可以看懂上面的代码单个是什么意思了，但是这串东西合起来是什么意思呢？</p>
+<img src="/.com//CECure.png" alt="CECure" style="zoom:75%;">
+
+<p>这个是上述函数的图像，可以看到他的映射关系如图。总体还是s曲线，但是换了一种表达形式占比。有种用MatLab画图的感觉，用数学手段强行模拟曲线关系。</p>
+<h3 id="FilmicToneMapping"><a href="#FilmicToneMapping" class="headerlink" title="FilmicToneMapping"></a>FilmicToneMapping</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float3 <span class="title">F</span><span class="params">(float3 x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> A = <span class="number">0.22f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> B = <span class="number">0.30f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> C = <span class="number">0.10f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> D = <span class="number">0.20f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> E = <span class="number">0.01f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> F = <span class="number">0.30f</span>;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">return</span> ((x * (A * x + C * B) + D * E) / (x * (A * x + B) + D * F)) - E / F;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">float3 <span class="title">Uncharted2ToneMapping</span><span class="params">(float3 color, <span class="keyword">float</span> adapted_lum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> WHITE = <span class="number">11.2f</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">F</span>(<span class="number">1.6f</span> * adapted_lum * color) / <span class="built_in">F</span>(WHITE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法的本质是把原图和让艺术家用专业照相软件模拟胶片的感觉，人肉tone mapping后的结果去使用数学手段做曲线拟合，得到一个高次曲线的表达式。</p>
+<img src="/.com//FilmicToneMappingCure.png" alt="FilicToneMappingCure" style="zoom:75%;">
+
+<p>如图，为其拟合映射曲线。</p>
+<h3 id="Academy-Color-Encoding-System"><a href="#Academy-Color-Encoding-System" class="headerlink" title="Academy Color Encoding System"></a><a href="https://link.zhihu.com/?target=http://www.oscars.org/science-technology/sci-tech-projects/aces">Academy Color Encoding System</a></h3><p>这种方案不同于以上三种，他单独创建了一套颜色编码系统，作为一种通用的数据交换方式，将不同的输入设备格式转换成为ACES，然后再在不同的设备上使用ACES来正常显示表达。我们只需要利用其中一小部分的转换逻辑，因为游戏渲染流程之中并没有图像输入设备的需求，我们可以直接得到需要渲染的图元数据，所以只要在ACES的基础上转到LDR或者另一个HDR就可以。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">float3 <span class="title">ACESToneMapping</span><span class="params">(float3 color, <span class="keyword">float</span> adapted_lum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> A = <span class="number">2.51f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> B = <span class="number">0.03f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> C = <span class="number">2.43f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> D = <span class="number">0.59f</span>;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">float</span> E = <span class="number">0.14f</span>;</span><br><span class="line"></span><br><span class="line">	color *= adapted_lum;</span><br><span class="line">	<span class="keyword">return</span> (color * (A * color + B)) / (color * (C * color + D) + E);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/.com//ACESCurve.png" alt="ACESCurve"></p>
+<p>更好的地方是，按照前面说的，ACES为的是解决所有设备之间的颜色空间转换问题。所以这个tone mapper不但可以用于HDR到LDR的转换，还可以用于从一个HDR转到另一个HDR。</p>
+<h3 id="卡通游戏的色彩变幻问题"><a href="#卡通游戏的色彩变幻问题" class="headerlink" title="卡通游戏的色彩变幻问题"></a>卡通游戏的色彩变幻问题</h3><p><img src="/.com//CT.png" alt="CT"></p>
+<h2 id="Bloom"><a href="#Bloom" class="headerlink" title="Bloom?"></a>Bloom?</h2><p>Bloom直译为绽放，在这里的含义为后期特效中的泛光/辉光。</p>
+<p><img src="/.com//Bloom.jpg" alt="Bloom"></p>
+<p>如图，就是经典的Bloom效果展示，在强光部分会产生向外扩散的光晕，这个就是Bloom。</p>
+<p>Bloom的形状不一定是圆形，他和光圈的形状也有一定关联，具体他的形成原理请参照参考资料10<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27024300">光学系统像差杂谈（3）：理想的尽头</a>。</p>
+<h3 id="如何制造Bloom？"><a href="#如何制造Bloom？" class="headerlink" title="如何制造Bloom？"></a>如何制造Bloom？</h3><p>被我找到的方式有三种，第一种是计算超出阈值的高光像素，将其向外扩散，第二种就是使用高斯模糊来模拟Bloom，然后与原图像相叠加，第三种是采用盒式，实质上也是采取和原图像叠加的方式实现，相对高斯而言，这种方案性能上会稍好，但效果稍差。这里给出第二种方式与第三种方式。高斯模糊实质上是对一个像素周边的想去分配一个权重，然后按权重采样混合，得到最终值。如需了解高斯模糊的更相关内容，请参照参考资料11<a target="_blank" rel="noopener" href="https://www.cnblogs.com/invisible2/p/9177018.html">高斯模糊原理</a>。</p>
+<ul>
+<li><p>高斯模糊的滤波器用于计算像素周围的权重，它是一种低通滤波器。之后高斯模糊会将当前的像素与周围的像素按一定权重混合，产生一定模糊效果。二维高斯公式如下图。σ为假定值。</p>
+<img src="/.com//高斯模糊公式.png" alt="高斯模糊公式" style="zoom:75%;">
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//显然我们可以通过这个公式用代码来计算出指定大小的滤波器</span></span><br><span class="line"><span class="keyword">double</span> sigma = (<span class="keyword">double</span>)radius / <span class="number">3.0</span>;  </span><br><span class="line"><span class="keyword">double</span> sigma2 = <span class="number">2.0</span> * sigma * sigma;  </span><br><span class="line"><span class="keyword">double</span> sigmap = sigma2 * PI;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">long</span> n = <span class="number">0</span>, i = - radius; i &lt;=radius; ++i)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">long</span> i2 = i * i;  </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">long</span> j = -radius; j &lt;= radius; ++j, ++n)  </span><br><span class="line">        kernel[n] = <span class="built_in">exp</span>(-(<span class="keyword">double</span>)(i2 + j * j) / sigma2) / sigmap;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如图为5*5的滤波器，因为上述代码同样需要进行计算耗时，因而将其结果直接提出使用。</p>
+<p><img src="/.com//55%E6%BB%A4%E6%B3%A2%E5%99%A8.png" alt="55滤波器"></p>
+</li>
+<li><p>盒式过滤</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">half3 <span class="title">Sample</span><span class="params">(float2 uv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">tex2D</span>(_MainTex,uv).rgb;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">half3 <span class="title">BoxFilter</span><span class="params">(float2 uv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">      half2 upL,upR,downL,downR;</span><br><span class="line">                </span><br><span class="line">      upL =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">-1</span>,<span class="number">1</span>);</span><br><span class="line">      upR =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">      downL =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">-1</span>,<span class="number">-1</span>);</span><br><span class="line">      downR =_MainTex_TexelSize.xy*<span class="built_in">half2</span>(<span class="number">1</span>,<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">      half3 col =<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+upL)*<span class="number">0.25</span>;</span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+upR)*<span class="number">0.25</span>;</span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+downL)*<span class="number">0.25</span>;</span><br><span class="line">      col+=<span class="built_in">Sample</span>(uv+downR)*<span class="number">0.25</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> col;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>盒式过滤的流程相对于高斯来说简易很多，选取每一个像素的左上，右上，左下，右下四个方位，每个权重取0.25，然后将其结果相加。</p>
+</li>
+</ul>
+<h3 id="降采样"><a href="#降采样" class="headerlink" title="降采样"></a>降采样</h3><p>在模糊图像之前，需要考虑一个问题，我们的计算方式是最终图像 = 原图像+模糊后的图像。而使用模糊是会逐像素进行计算的，这意味着大量的计算，而如果我们可以通过降低像素个数的方法来减少计算次数，无疑会提高我们的计算速度。</p>
+<p>可以直接通过直接降低分辨率的方法解决问题，但参考资料12<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91390940">从认识到实现：HDR Bloom in Unity</a>的作者给出了一种渐进式的采样方案，用于提升低分辨率的采样质量。有趣的是参考资料16<a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/">Bloom</a>给出了一份同样的方案，也许是英雄所见略同。不过参考资料12的代码逻辑有所缺漏，阅读16会比较好。</p>
+<p>这种方案是使用多次逐步降低分辨率来代替一次性降低，利用在每次迭代的过程中借由引擎的双线性过滤提升效果。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int width = source.width;</span><br><span class="line">int height = source.height;</span><br><span class="line">int i = 1;</span><br><span class="line">for (; i &lt; iterations; i++)</span><br><span class="line">&#123;</span><br><span class="line">    width /= 2;</span><br><span class="line">    height /= 2;</span><br><span class="line">    if (height &lt; 2) break;</span><br><span class="line">    currentDestination = textures[i] =</span><br><span class="line">        RenderTexture.GetTemporary(width, height, 0, format);</span><br><span class="line">    Graphics.Blit(currentSource, currentDestination,bloom,BoxDownPass);</span><br><span class="line">    currentSource = currentDestination;</span><br><span class="line">&#125;</span><br><span class="line">for (i -= 2; i &gt;= 0; i--) </span><br><span class="line">&#123;</span><br><span class="line">    currentDestination = textures[i];</span><br><span class="line">    textures[i] = null;</span><br><span class="line">    Graphics.Blit(currentSource, currentDestination,bloom,BoxUpPass);</span><br><span class="line">    RenderTexture.ReleaseTemporary(currentSource);</span><br><span class="line">    currentSource = currentDestination;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a><a target="_blank" rel="noopener" href="https://github.com/cckt123/HDR_ToneMapping_Bloom">实例</a></h2><p>这个实例实质上来自于<a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/">Bloom</a>，其他的文献之中并没有找到能帮助我推动效果的部分，即使是16也有部分问题待处理。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/21983679">Tone mapping进化论 - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ownself.org/blog/2011/tone-mapping.html">Tone Mapping – OWNSELF</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/kenkao/article/details/44940629">Unity3d HDR和Bloom效果（高动态范围图像和泛光）_思月行云-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/80253409">HDR,ToneMapping,Bloom之间的关系 - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42349817/article/details/119563536">关闭Typora拼写检查功能_枸空的博客-CSDN博客_typora关闭拼写检查</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/exp/10942130?fr=aladdin">exp（语言函数）_百度百科 (baidu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47394772">Unity3d HDR和Bloom效果（高动态范围图像和泛光） - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://forums.unrealengine.com/t/4-15-tonemapper-is-it-possible-to-simulate-old-effects/85379">4.15 tonemapper - is it possible to simulate old effects?</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76505536">Bloom是什么？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27024300">光学系统像差杂谈（3）：理想的尽头</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/invisible2/p/9177018.html">高斯模糊原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91390940">从认识到实现：HDR Bloom in Unity</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/340145796">Unity通用渲染管线（URP）系列（十二）—— HDR</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/cn/current/Manual/HDR.html">Unity用户手册</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/61321220/answer/186706077">在unity引擎中的工程如何适配HDR电视？</a></li>
+<li><a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/">Bloom</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/339443207">Bloom</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/03/LeetCode-407%E6%8E%A5%E9%9B%A8%E6%B0%B4%E2%85%A1/" rel="prev" title="LeetCode-407接雨水Ⅱ">
+      <i class="fa fa-chevron-left"></i> LeetCode-407接雨水Ⅱ
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HDR"><span class="nav-number">1.</span> <span class="nav-text">HDR?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AEHDR%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">如何设置HDR？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ToneMapping"><span class="nav-number">2.</span> <span class="nav-text">ToneMapping?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Reinhard-tone-mapping"><span class="nav-number">2.1.</span> <span class="nav-text">Reinhard tone mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CEToneMapping"><span class="nav-number">2.2.</span> <span class="nav-text">CEToneMapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FilmicToneMapping"><span class="nav-number">2.3.</span> <span class="nav-text">FilmicToneMapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Academy-Color-Encoding-System"><span class="nav-number">2.4.</span> <span class="nav-text">Academy Color Encoding System</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%A1%E9%80%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E8%89%B2%E5%BD%A9%E5%8F%98%E5%B9%BB%E9%97%AE%E9%A2%98"><span class="nav-number">2.5.</span> <span class="nav-text">卡通游戏的色彩变幻问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bloom"><span class="nav-number">3.</span> <span class="nav-text">Bloom?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%B6%E9%80%A0Bloom%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">如何制造Bloom？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%8D%E9%87%87%E6%A0%B7"><span class="nav-number">3.2.</span> <span class="nav-text">降采样</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Ink"
+      src="/images/touxiang.jpg">
+  <p class="site-author-name" itemprop="name">Ink</p>
+  <div class="site-description" itemprop="description">淡泊明志，宁静致远。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ink</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
