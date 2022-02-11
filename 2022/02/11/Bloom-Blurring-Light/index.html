@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Bloom | InkTank</title><meta name="keywords" content="Unity,Shader"><meta name="author" content="Ink"><meta name="copyright" content="Ink"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="catlikecoding Bloom翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bloom">
+<meta property="og:url" content="http://example.com/2022/02/11/Bloom-Blurring-Light/index.html">
+<meta property="og:site_name" content="InkTank">
+<meta property="og:description" content="catlikecoding Bloom翻译">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/BackGround.jpg">
+<meta property="article:published_time" content="2022-02-11T06:14:42.000Z">
+<meta property="article:modified_time" content="2022-02-11T08:20:42.047Z">
+<meta property="article:author" content="Ink">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/BackGround.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/02/11/Bloom-Blurring-Light/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Bloom',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-11 16:20:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/BackGround.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">InkTank</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Bloom</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-11T06:14:42.000Z" title="发表于 2022-02-11 14:14:42">2022-02-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-11T08:20:42.047Z" title="更新于 2022-02-11 16:20:42">2022-02-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Shader/">Shader</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Bloom"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前述"><a href="#前述" class="headerlink" title="前述"></a>前述</h1><p>这篇文章来源于<a target="_blank" rel="noopener" href="https://crazyink47.xyz/2022/02/09/HDR-ToneMapping-Bloom/">HDR_ToneMapping_Bloom</a>这篇文章的后续，参考文献16<a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/">Bloom Blurring Light</a>给了我很大帮助，大到我觉得翻译出来应该会更好。</p>
+<h1 id="Bloom"><a href="#Bloom" class="headerlink" title="Bloom"></a>Bloom</h1><blockquote>
+<p>渲染到一个临时纹理（a temporary texture）</p>
+<p>通过上下调整分辨率模糊</p>
+<p>采样</p>
+<p>盒式过滤</p>
+<p>应用Bloom到原图</p>
+</blockquote>
+<p>本篇教程介绍如何向Camera添加Bloom效果，且默认您已经了解<a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/rendering/part-1/">Rendering</a>系列教程相关内容。</p>
+<p>本篇教程使用Unity2017.3.0p3制作</p>
+<p><img src="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/tutorial-image.jpg" alt="*A little bloom makes bright things glow.*"></p>
+<p>*查看<a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/custom-srp/post-processing/">Custom SRP / Post Processing</a>得到更新的Bloom教程.*（PS：这里有个<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/339443207">中文翻译</a>）</p>
+<h1 id="1-设置场景"><a href="#1-设置场景" class="headerlink" title="1 设置场景"></a>1 设置场景</h1><p>绝大多数设备可以显示的光源是有限的。从RGB三原色的值从0到1，从黑色到纯白，是就是低动态范围，LDR。纯白的亮度在不同的显示设备上有所不同，但是绝对不会亮到无法观察。</p>
+<p>真实生活之中的亮度远不止于LDR。事实上并没有最大亮度，随着光子在同一时间的不断聚集，亮度只会越来越高，直到你盯着它都会感觉到眼睛被灼烧，就像是直视太阳一样。</p>
+<p>为了表示异常明亮的色彩，我们制造了HDR，他允许亮度超过最大值1.Shader处理这个当然没有问题，只要我们允许他计算的颜色数值大于1，但是设备所能展示的亮度是有限的，我们最终的色彩还是会回到LDR上。</p>
+<p>为了使HDR色彩可见，他们必须映射回到LDR，这个步骤称之为tonemapping色调映射。简单来说就是图像的非线性变暗，使其可以被显示。这有点类似于我们的眼睛如何适应过亮的环境，虽然tonemapping映射是不会发生系数变化的。还有自动曝光技术，可以动态调整图像亮度。两者可以同时使用。但我们的眼睛也并不能适应所有情况。有些场景太过明亮，让我们肉眼也很难观察。在限制LDR显示的情况下，我们要如何显示这种效果?</p>
+<p>Bloom是一种通过使像素的颜色影响相邻像素来混合图像的效果。这就像模糊图像，但是基于亮度。这样我们就可以通过模糊来传达过亮的色彩。这有点类似于光线在我们眼睛里的漫反射，在高亮度的情况下Bloom会变得很明显，但毕竟是一个模拟效果。</p>
+<p>许多人不喜欢Bloom，因为他会干扰原本清晰的图像制造出不真实的光源。这并不是Bloom的缺陷，而是他被过于频繁的实用的原因。如果你的设计目标是有真实感的场景，请适度使用他。Bloom相对适合使用在非真实艺术效果上。</p>
+<h2 id="1-1-Bloom-Scene"><a href="#1-1-Bloom-Scene" class="headerlink" title="1.1 Bloom Scene"></a>1.1 Bloom Scene</h2><p>我们将通过一个Camera的后处理组件创建我们自己的Bloom效果，类似于我们如何在<a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/rendering/part-14/">Rendering14,Fog</a>中创建延迟的雾效。你可以从一个新的项目开始或从那个教程继续，但我使用了之前的高级渲染教程，<a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/">Surface Displacement</a>，作为这个项目的基础。</p>
+<p><a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/advanced-rendering/surface-displacement/culling-triangles/culling-triangles.unitypackage">Surface Displacement unitypackage</a></p>
+<p>创建一个使用默认照明的新场景。放一些明亮的物体进去，在深色的背景前。我使用了一个黑色的Plane和一些白、黄、绿、红的立方体或者球体。确保Camera设置为HDR。同时将项目设置为线性色彩空间以更好的观测效果。</p>
+<p><img src="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/setting-the-scene/scene.png" alt="Bright objects"></p>
+<p>通常情况下，我们会将ToneMapping应用到场景中的线性与HDR渲染的情况下。你可以先做自动曝光，然后应用Bloom，最后使用ToneMapping。但在本教程中，我们将专注于绽放，不会应用任何其他效果。这意味着所有超出LDR的颜色将被映射在最终的图像中。</p>
+<h2 id="1-2-Bloom-Effect"><a href="#1-2-Bloom-Effect" class="headerlink" title="1.2 Bloom Effect"></a>1.2 Bloom Effect</h2><p>创建一个新的BloomEffect脚本，就像是DeferredFogEffect一样，让他在编辑模式下运行，并给他一个<strong>OnRenderImage</strong>方法。最初他并不做任何额外的处理，只是进行源数据到目标渲染纹理的比特数据传输。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">using UnityEngine;</span><br><span class="line">using System;</span><br><span class="line"></span><br><span class="line">[ExecuteInEditMode]</span><br><span class="line">public class BloomEffect : MonoBehaviour &#123;</span><br><span class="line"></span><br><span class="line">	void OnRenderImage (RenderTexture source, RenderTexture destination) &#123;</span><br><span class="line">		Graphics.Blit(source, destination);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>让我们将这个效果同时添加到场景视图之中，这样我们可以更容易的观察到效果变化。这只需要添加<strong>ImageEffectAllowedInSceneView</strong>特性到类之前就可以。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ExecuteInEditMode, ImageEffectAllowedInSceneView]</span><br><span class="line">public class BloomEffect : MonoBehaviour &#123;</span><br><span class="line">	…</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将这个脚本添加Camera下，也只添加这个脚本，这样我们的测试场景就完成了。</p>
+<p><img src="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/setting-the-scene/camera.png"></p>
+<p><a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/advanced-rendering/bloom/setting-the-scene/setting-the-scene.unitypackage">unitypackage</a></p>
+<h1 id="2-Blurring-模糊"><a href="#2-Blurring-模糊" class="headerlink" title="2 Blurring 模糊"></a>2 Blurring 模糊</h1><p>Bloom效果是创建模糊图像，然后与原图像重叠，因而我们需要先创建模糊图像再进行后续步骤。</p>
+<h2 id="2-1-Rendering-to-Another-Texture-渲染到一个中间纹理"><a href="#2-1-Rendering-to-Another-Texture-渲染到一个中间纹理" class="headerlink" title="2.1 Rendering to Another Texture 渲染到一个中间纹理"></a>2.1 Rendering to Another Texture 渲染到一个中间纹理</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Ink</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/02/11/Bloom-Blurring-Light/">http://example.com/2022/02/11/Bloom-Blurring-Light/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">InkTank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a></div><div class="post_share"><div class="social-share" data-image="/img/BackGround.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/02/10/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC1%E7%AB%A0-CLR%E7%9A%84%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9E%8B/"><img class="next-cover" src="/img/BackGround.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">《CLRViaC#》第1章 CLR的执行模型</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/02/09/HDR-ToneMapping-Bloom/" title="HDR_ToneMapping_Bloom"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-09</div><div class="title">HDR_ToneMapping_Bloom</div></div></a></div><div><a href="/2021/11/02/17-%E5%9C%B0%E5%9B%BE%E4%BA%A4%E6%8E%A5/" title="17-地图交接"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-02</div><div class="title">17-地图交接</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ink</div><div class="author-info__description">淡泊明志，宁静致远。</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/cckt123" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">前述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom"><span class="toc-number">2.</span> <span class="toc-text">Bloom</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E8%AE%BE%E7%BD%AE%E5%9C%BA%E6%99%AF"><span class="toc-number">3.</span> <span class="toc-text">1 设置场景</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-Bloom-Scene"><span class="toc-number">3.1.</span> <span class="toc-text">1.1 Bloom Scene</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-Bloom-Effect"><span class="toc-number">3.2.</span> <span class="toc-text">1.2 Bloom Effect</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-Blurring-%E6%A8%A1%E7%B3%8A"><span class="toc-number">4.</span> <span class="toc-text">2 Blurring 模糊</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-Rendering-to-Another-Texture-%E6%B8%B2%E6%9F%93%E5%88%B0%E4%B8%80%E4%B8%AA%E4%B8%AD%E9%97%B4%E7%BA%B9%E7%90%86"><span class="toc-number">4.1.</span> <span class="toc-text">2.1 Rendering to Another Texture 渲染到一个中间纹理</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/11/Bloom-Blurring-Light/" title="Bloom"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Bloom"/></a><div class="content"><a class="title" href="/2022/02/11/Bloom-Blurring-Light/" title="Bloom">Bloom</a><time datetime="2022-02-11T06:14:42.000Z" title="发表于 2022-02-11 14:14:42">2022-02-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/10/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC1%E7%AB%A0-CLR%E7%9A%84%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9E%8B/" title="《CLRViaC#》第1章 CLR的执行模型"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《CLRViaC#》第1章 CLR的执行模型"/></a><div class="content"><a class="title" href="/2022/02/10/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC1%E7%AB%A0-CLR%E7%9A%84%E6%89%A7%E8%A1%8C%E6%A8%A1%E5%9E%8B/" title="《CLRViaC#》第1章 CLR的执行模型">《CLRViaC#》第1章 CLR的执行模型</a><time datetime="2022-02-10T06:46:50.000Z" title="发表于 2022-02-10 14:46:50">2022-02-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/09/HDR-ToneMapping-Bloom/" title="HDR_ToneMapping_Bloom"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HDR_ToneMapping_Bloom"/></a><div class="content"><a class="title" href="/2022/02/09/HDR-ToneMapping-Bloom/" title="HDR_ToneMapping_Bloom">HDR_ToneMapping_Bloom</a><time datetime="2022-02-09T07:18:37.000Z" title="发表于 2022-02-09 15:18:37">2022-02-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/03/LeetCode-407%E6%8E%A5%E9%9B%A8%E6%B0%B4%E2%85%A1/" title="LeetCode-407接雨水Ⅱ"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LeetCode-407接雨水Ⅱ"/></a><div class="content"><a class="title" href="/2021/11/03/LeetCode-407%E6%8E%A5%E9%9B%A8%E6%B0%B4%E2%85%A1/" title="LeetCode-407接雨水Ⅱ">LeetCode-407接雨水Ⅱ</a><time datetime="2021-11-03T00:44:14.000Z" title="发表于 2021-11-03 08:44:14">2021-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/02/17-%E5%9C%B0%E5%9B%BE%E4%BA%A4%E6%8E%A5/" title="17-地图交接"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="17-地图交接"/></a><div class="content"><a class="title" href="/2021/11/02/17-%E5%9C%B0%E5%9B%BE%E4%BA%A4%E6%8E%A5/" title="17-地图交接">17-地图交接</a><time datetime="2021-11-02T08:14:55.000Z" title="发表于 2021-11-02 16:14:55">2021-11-02</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Ink</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/hexo-github-calendar@1.21/hexo_githubcalendar.js"></script>
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://python-github-calendar-api.vercel.app/api?cckt123";
+            var git_color =['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f'];
+            var git_user ="cckt123";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log('已挂载github calendar')
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end --></body></html>
