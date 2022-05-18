@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>ToneMapping-应用 | InkTank</title><meta name="keywords" content="Unity,Shader"><meta name="author" content="Ink"><meta name="copyright" content="Ink"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="UnityToneMapping URP 应用方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ToneMapping-应用">
+<meta property="og:url" content="http://example.com/2022/05/18/ToneMapping-%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="InkTank">
+<meta property="og:description" content="UnityToneMapping URP 应用方案">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/BackGround.jpg">
+<meta property="article:published_time" content="2022-05-18T06:00:42.000Z">
+<meta property="article:modified_time" content="2022-05-18T07:45:25.526Z">
+<meta property="article:author" content="Ink">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/BackGround.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/05/18/ToneMapping-%E5%BA%94%E7%94%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ToneMapping-应用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-18 15:45:25'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/BackGround.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">InkTank</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ToneMapping-应用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-18T06:00:42.000Z" title="发表于 2022-05-18 14:00:42">2022-05-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-18T07:45:25.526Z" title="更新于 2022-05-18 15:45:25">2022-05-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Shader/">Shader</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ToneMapping-应用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Volumes"><a href="#Volumes" class="headerlink" title="Volumes"></a>Volumes</h2><p>高清渲染管线（HDRP）使用了Volumes架构。每一个Volumes都可以被设置为全局或者有局部边界（Global/Local）的模式。它们每一个都含有在Scence内设置的属性（property values），HDRP可以根据相机位置参与计算，并决定最终呈像值。举例而言，你可以采用local模式下的Volumes改变环境设置，比如修改雾气的颜色与浓度来改变你的场景气氛。</p>
+<p>你可以添加 <strong>Volume</strong> 组件到任何一个GameObject上，包括Camera相机。但这里更推荐创建一个专门的GameObject负载每一个Volume组件。这个Volume组件本身并不含有任何实质上的数据，他通过引用一个处理数据的VolumeProfile来进行操作。这个VolumeProfile包含每一项参数的默认值，并在默认条件下将他们隐藏。为了查看或者修改这些参数，你必须添加Volume Component overrides，他们含有覆盖默认值的结构体，用于改变VolumeProfile。</p>
+<p>Volumes同时包含其他参数来控制他们影响其他volumes。一个场景内可以含有多个Volumes。当Volume是 <strong>Global</strong> 的情况下，他会影响所有相机，在局部条件下，当相机观察到Volumes设计的边界区域时，他会参与计算。</p>
+<p>在运行时，HDRP检测场景内所有启用（enabled）且添加到已激活的GameObject上的Volumes，并决定每个Volumes对场景最后设置的影响度。HDRP使用Camera参数和上述的Volumes参数来计算这个值。然后他们使用所有影响度不为0的Volumes来参与计算。</p>
+<p>Volumes可以由多个不同的Volume Component组成。举例而言，一个Volume可以负责天空Volume而其他Volume负责雾气。</p>
+<h3 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h3><p><img src="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@6.7/manual/Images/Volumes1.png" alt="Properties"></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Is Global</td>
+<td>选取之后，Volume变为全局模式，影响整个场景</td>
+</tr>
+<tr>
+<td>Blend Distance</td>
+<td>当Is Gloabl未勾选的情况下会显示此项，可以设置一个混合区域，该区域为从一个Volume到当前Volume时的渐变区域。</td>
+</tr>
+<tr>
+<td>Weight</td>
+<td>混合程度，当Cmaera进入当前区域之后，决定最后的混合结果占比</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td>当两个Volume重叠时，根据此项来判断当前使用哪一个Volume的配置。数值越大越优先。</td>
+</tr>
+<tr>
+<td>Profile</td>
+<td>使用Volume配置文件时，点击“New”新建一个配置文件。</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>Blend Distance 当Is Global未勾选时，需要在当前Volume所在物体上挂载Box Collider组件，并且勾选Box Collider组件的Is Trigger。</p>
+</li>
+<li><p>混合区域是从Collider外侧边缘开始计算。</p>
+<p>例如Collider为4，Blend Distance为5，混合区域位置就是4到9。</p>
+</li>
+<li><p>混合程度是 摄像机距离和混合距离 运算结果后，再乘以混合程度数值最终所得的结果。例如，当前Volume区域设置亮度为100，混合程度为0.5，在该Volume中最终亮度为50，当进入混合区域时，所有渐变的数值也会乘以0.5。</p>
+</li>
+</ul>
+<h2 id="ToneMapping"><a href="#ToneMapping" class="headerlink" title="ToneMapping"></a>ToneMapping</h2><p>​    ToneMapping概念介绍请参考末尾<a target="_blank" rel="noopener" href="https://crazyink47.xyz/2022/02/09/HDR-ToneMapping-Bloom/">参考文献5</a>。</p>
+<ul>
+<li><p>首先，将ToneMapping添加到Volume组件</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/19189157-88716a8cff5e2d20.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp"></p>
+</li>
+<li><p>下面有四种模式</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/19189157-59e5a4af945e564a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp"></p>
+</li>
+<li><p>Neutral 中性映射方案，没有参数可以调整，使用该方案对比度可能降低</p>
+</li>
+<li><p>ACES 影视常用映射方案 没有参数 常用选取</p>
+</li>
+<li><p>Custom 自定义映射方案 暂略</p>
+</li>
+<li><p>Extrnal 外部映射方案 暂略</p>
+</li>
+</ul>
+<p>因笔者在这里使用URP作为渲染管线，因而没有Custom和Extrnal两种方案，在编辑器情况如下，需要上述介绍的请查看<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2ba6bb4e72da">参考文献3</a>。</p>
+<p><img src="/.com//" alt="/images/URPToneMapping.png"></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://catlikecoding.com/unity/tutorials/custom-srp/hdr/">HDRCatlike</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1771261">机翻HDRCatlike</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2ba6bb4e72da">Volume-ToneMapping</a></li>
+<li><a target="_blank" rel="noopener" href="https://forum.unity.com/threads/how-to-do-custom-tone-mapping-instead-of-neutral-aces-in-urp.849280/">How to do custom tone mapping instead of neutral/aces in URP?</a></li>
+<li><a target="_blank" rel="noopener" href="https://crazyink47.xyz/2022/02/09/HDR-ToneMapping-Bloom/">HDR_ToneMapping_Bloom</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@7.5/manual/Volumes.html">VolumesUnity官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72615352">Volumes翻译参考1</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Ink</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/05/18/ToneMapping-%E5%BA%94%E7%94%A8/">http://example.com/2022/05/18/ToneMapping-%E5%BA%94%E7%94%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">InkTank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a></div><div class="post_share"><div class="social-share" data-image="/img/BackGround.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/05/16/CommandBuffer%20and%20RenderTexture/"><img class="next-cover" src="/img/BackGround.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CommandBuffer and RenderTexture</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/05/16/CommandBuffer%20and%20RenderTexture/" title="CommandBuffer and RenderTexture"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-16</div><div class="title">CommandBuffer and RenderTexture</div></div></a></div><div><a href="/2022/02/11/Bloom-Blurring-Light/" title="Bloom"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-11</div><div class="title">Bloom</div></div></a></div><div><a href="/2022/02/09/HDR-ToneMapping-Bloom/" title="HDR_ToneMapping_Bloom"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-09</div><div class="title">HDR_ToneMapping_Bloom</div></div></a></div><div><a href="/2021/11/02/17-%E5%9C%B0%E5%9B%BE%E4%BA%A4%E6%8E%A5/" title="17-地图交接"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-02</div><div class="title">17-地图交接</div></div></a></div><div><a href="/2022/02/17/AssetBundle%E6%B5%85%E6%9E%90/" title="AssetBundle浅析"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-17</div><div class="title">AssetBundle浅析</div></div></a></div><div><a href="/2022/05/12/ScreenBreak/" title="ScreenBreak"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-12</div><div class="title">ScreenBreak</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ink</div><div class="author-info__description">淡泊明志，宁静致远。</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/cckt123" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://leetcode-cn.com/u/ink47/" target="_blank" title="LeetCode"><i class="fa-solid fa-display-code"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Volumes"><span class="toc-number">1.</span> <span class="toc-text">Volumes</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Properties"><span class="toc-number">1.1.</span> <span class="toc-text">Properties</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ToneMapping"><span class="toc-number">2.</span> <span class="toc-text">ToneMapping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/18/ToneMapping-%E5%BA%94%E7%94%A8/" title="ToneMapping-应用"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ToneMapping-应用"/></a><div class="content"><a class="title" href="/2022/05/18/ToneMapping-%E5%BA%94%E7%94%A8/" title="ToneMapping-应用">ToneMapping-应用</a><time datetime="2022-05-18T06:00:42.000Z" title="发表于 2022-05-18 14:00:42">2022-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/16/CommandBuffer%20and%20RenderTexture/" title="CommandBuffer and RenderTexture"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CommandBuffer and RenderTexture"/></a><div class="content"><a class="title" href="/2022/05/16/CommandBuffer%20and%20RenderTexture/" title="CommandBuffer and RenderTexture">CommandBuffer and RenderTexture</a><time datetime="2022-05-16T00:55:18.000Z" title="发表于 2022-05-16 08:55:18">2022-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/12/ScreenBreak/" title="ScreenBreak"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ScreenBreak"/></a><div class="content"><a class="title" href="/2022/05/12/ScreenBreak/" title="ScreenBreak">ScreenBreak</a><time datetime="2022-05-12T09:31:01.000Z" title="发表于 2022-05-12 17:31:01">2022-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/29/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC14%E7%AB%A0-%E5%AD%97%E7%AC%A6%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/" title="《CLRViaC#》第14章-字符、字符串和文本处理"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《CLRViaC#》第14章-字符、字符串和文本处理"/></a><div class="content"><a class="title" href="/2022/03/29/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC14%E7%AB%A0-%E5%AD%97%E7%AC%A6%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/" title="《CLRViaC#》第14章-字符、字符串和文本处理">《CLRViaC#》第14章-字符、字符串和文本处理</a><time datetime="2022-03-29T03:18:01.000Z" title="发表于 2022-03-29 11:18:01">2022-03-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/27/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC13%E7%AB%A0-%E6%8E%A5%E5%8F%A3/" title="《CLRViaC#》第13章-接口"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《CLRViaC#》第13章-接口"/></a><div class="content"><a class="title" href="/2022/03/27/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC13%E7%AB%A0-%E6%8E%A5%E5%8F%A3/" title="《CLRViaC#》第13章-接口">《CLRViaC#》第13章-接口</a><time datetime="2022-03-27T02:33:28.000Z" title="发表于 2022-03-27 10:33:28">2022-03-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Ink</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/hexo-github-calendar@1.21/hexo_githubcalendar.js"></script>
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://python-github-calendar-api.vercel.app/api?cckt123";
+            var git_color =['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f'];
+            var git_user ="cckt123";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log('已挂载github calendar')
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end --></body></html>
