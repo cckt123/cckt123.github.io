@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CommandBuffer and RenderTexture | InkTank</title><meta name="keywords" content="Unity,Shader"><meta name="author" content="Ink"><meta name="copyright" content="Ink"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="后处理相关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CommandBuffer and RenderTexture">
+<meta property="og:url" content="http://example.com/2022/05/16/CommandBuffer%20and%20RenderTexture/index.html">
+<meta property="og:site_name" content="InkTank">
+<meta property="og:description" content="后处理相关">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/BackGround.jpg">
+<meta property="article:published_time" content="2022-05-16T00:55:18.000Z">
+<meta property="article:modified_time" content="2022-05-17T02:09:21.035Z">
+<meta property="article:author" content="Ink">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/BackGround.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/05/16/CommandBuffer%20and%20RenderTexture/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CommandBuffer and RenderTexture',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-17 10:09:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/BackGround.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">InkTank</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CommandBuffer and RenderTexture</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-16T00:55:18.000Z" title="发表于 2022-05-16 08:55:18">2022-05-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-17T02:09:21.035Z" title="更新于 2022-05-17 10:09:21">2022-05-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Shader/">Shader</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CommandBuffer and RenderTexture"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="RenderTexture"><a href="#RenderTexture" class="headerlink" title="RenderTexture"></a>RenderTexture</h2><h3 id="什么是RenderTexture"><a href="#什么是RenderTexture" class="headerlink" title="什么是RenderTexture?"></a>什么是RenderTexture?</h3><p>RenderTexture，顾名思义，是可以进行渲染的纹理类型，继承与Texture接口。</p>
+<p>可用于实现图像的渲染特效、动态阴影、投影、反射或者摄像机。</p>
+<p>在某些情况下，例如加载新场景，系统进入屏幕保护模式，进退全屏等情况下会导致RenderTexture丢失。这时候要使用IsCreated函数来检查RenderTexture的情况。</p>
+<p>需要注意的是，在使用完成之后，要手动调用Release来释放内存，RenderTexture并不会自动进行内存回收。</p>
+<p>Texture对象分为两种，一种Server-side，创建在显存，由GPU访问，一种Client-side创建在内存，由CPU访问。CPU提交渲染请求的时候，会把内存中的纹理对象复制到GPU可访问显存，反之亦然。</p>
+<h3 id="如何使用RenderTexture"><a href="#如何使用RenderTexture" class="headerlink" title="如何使用RenderTexture?"></a>如何使用RenderTexture?</h3><ol>
+<li><p>构造函数创建</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> RT = <span class="keyword">new</span> RenderTexture(<span class="number">1024</span>, <span class="number">1024</span>, <span class="number">16</span>, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);</span><br><span class="line"><span class="comment">//上述参数依次为纹理宽度，高度，深度，纹理颜色格式，RenderTexture颜色格式</span></span><br><span class="line">RT.Release();</span><br><span class="line">GameObject.Destory(RT);</span><br><span class="line">RT = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>RenderTexture.GetTemporary</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取临时分配的纹理，使用完成之后需要立即调用ReleaseTemporary释放，以便下次调用</span></span><br><span class="line">RT = RenderTexture.GetTemporary(<span class="number">1024</span>,<span class="number">1024</span>,<span class="number">16</span>,RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);</span><br><span class="line">RenderTexture.ReleaseTemporary(RT);</span><br><span class="line">RT = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>CommandBuffer.GetTemporary</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//与方法2相似，第一个参数会获得指向RenderTexture的整型ID</span></span><br><span class="line"><span class="keyword">var</span> cmd = <span class="keyword">new</span> CommandBuffer();</span><br><span class="line"><span class="keyword">var</span> texID = Shader.PropertyToID(<span class="string">&quot;_RTTex&quot;</span>);</span><br><span class="line">cmd.GetTemporaryRT(texID, <span class="number">1024</span>, <span class="number">1024</span>, <span class="number">16</span>, FilterMode.Bilinear, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);</span><br><span class="line">cmd.ReleaseTemoraryRT(texID);</span><br><span class="line"><span class="comment">//应用CommandBuffer</span></span><br><span class="line">_currentCamera.AddCommandBuffer(CameraEvent.BeforeImageEffects,cmd);</span><br><span class="line">_currentCamera.RemoveCommandBuffer(CameraEvent.BeforeImageEffects, cmd);</span><br><span class="line">cmd.Release();</span><br><span class="line">cmd = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="RenderTexture的属性"><a href="#RenderTexture的属性" class="headerlink" title="RenderTexture的属性"></a>RenderTexture的属性</h3><ol>
+<li><p>ColorFormat</p>
+<p>​    模式使用ARGB32，当前平台或者GPU可能并不支持特定的纹理格式，需要使用SystemInfo.SupportsRenderTextureFormat在使用时检测。</p>
+</li>
+<li><p>Size</p>
+<p>​    纹理大小，在使用CommandBuffer时，如果输入参数为负数，表示当前关联相机像素1/X。</p>
+</li>
+<li><p>ZBuffer</p>
+<p>​    用于设定Zbuffer的大小，包含两个类型内容，深度和模板。</p>
+<p>​    有效参数有三个0，16，24。</p>
+<p>​    0，不保存</p>
+<p>​    16，depth</p>
+<p>​    24，depth and stencil</p>
+</li>
+<li><p>RenderTextureReadWrite</p>
+<p>​    Default 基于项目设定</p>
+<p>​    Linear 线性，不进行颜色转换</p>
+<p>​    sRGB 包含颜色数据</p>
+</li>
+<li><p>FilterMode</p>
+<ul>
+<li>Point 从纹理是获取某个像素的颜色值作为采样结果输出</li>
+<li>Bilinear 一次读取四个相邻的像素 平均后输出</li>
+<li>Trilinear 从两个不同的mipmap层级上读取颜色，而后插值混合输出</li>
+</ul>
+</li>
+<li><p>Anti-Aliasing  反走样采样 消除锯齿 有效参数1 2 4 8</p>
+<h2 id><a href="#" class="headerlink" title></a></h2></li>
+</ol>
+<h2 id="CommandBuffer"><a href="#CommandBuffer" class="headerlink" title="CommandBuffer"></a>CommandBuffer</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/gzg_restart/article/details/121590654">RenderTexture基础资料</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/gzg_restart/article/details/121062471?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-121062471-blog-88795640.pc_relevant_default&spm=1001.2101.3001.4242.2&utm_relevant_index=4">CommandBufferHelloWorld</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012740992/article/details/88795640">UnityCommandBuffer基础</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity.cn/cn/current/ScriptReference/RenderTexture.html">Unity官方手册RenderTexture</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Ink</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/05/16/CommandBuffer%20and%20RenderTexture/">http://example.com/2022/05/16/CommandBuffer%20and%20RenderTexture/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">InkTank</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/Shader/">Shader</a></div><div class="post_share"><div class="social-share" data-image="/img/BackGround.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/05/12/ScreenBreak/"><img class="next-cover" src="/img/BackGround.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ScreenBreak</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/02/11/Bloom-Blurring-Light/" title="Bloom"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-11</div><div class="title">Bloom</div></div></a></div><div><a href="/2022/02/09/HDR-ToneMapping-Bloom/" title="HDR_ToneMapping_Bloom"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-09</div><div class="title">HDR_ToneMapping_Bloom</div></div></a></div><div><a href="/2021/11/02/17-%E5%9C%B0%E5%9B%BE%E4%BA%A4%E6%8E%A5/" title="17-地图交接"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-02</div><div class="title">17-地图交接</div></div></a></div><div><a href="/2022/02/17/AssetBundle%E6%B5%85%E6%9E%90/" title="AssetBundle浅析"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-17</div><div class="title">AssetBundle浅析</div></div></a></div><div><a href="/2022/05/12/ScreenBreak/" title="ScreenBreak"><img class="cover" src="/img/BackGround.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-12</div><div class="title">ScreenBreak</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ink</div><div class="author-info__description">淡泊明志，宁静致远。</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/cckt123" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://leetcode-cn.com/u/ink47/" target="_blank" title="LeetCode"><i class="fa-solid fa-display-code"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#RenderTexture"><span class="toc-number">1.</span> <span class="toc-text">RenderTexture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRenderTexture"><span class="toc-number">1.1.</span> <span class="toc-text">什么是RenderTexture?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8RenderTexture"><span class="toc-number">1.2.</span> <span class="toc-text">如何使用RenderTexture?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RenderTexture%E7%9A%84%E5%B1%9E%E6%80%A7"><span class="toc-number">1.3.</span> <span class="toc-text">RenderTexture的属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CommandBuffer"><span class="toc-number">3.</span> <span class="toc-text">CommandBuffer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/16/CommandBuffer%20and%20RenderTexture/" title="CommandBuffer and RenderTexture"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CommandBuffer and RenderTexture"/></a><div class="content"><a class="title" href="/2022/05/16/CommandBuffer%20and%20RenderTexture/" title="CommandBuffer and RenderTexture">CommandBuffer and RenderTexture</a><time datetime="2022-05-16T00:55:18.000Z" title="发表于 2022-05-16 08:55:18">2022-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/12/ScreenBreak/" title="ScreenBreak"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ScreenBreak"/></a><div class="content"><a class="title" href="/2022/05/12/ScreenBreak/" title="ScreenBreak">ScreenBreak</a><time datetime="2022-05-12T09:31:01.000Z" title="发表于 2022-05-12 17:31:01">2022-05-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/29/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC14%E7%AB%A0-%E5%AD%97%E7%AC%A6%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/" title="《CLRViaC#》第14章-字符、字符串和文本处理"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《CLRViaC#》第14章-字符、字符串和文本处理"/></a><div class="content"><a class="title" href="/2022/03/29/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC14%E7%AB%A0-%E5%AD%97%E7%AC%A6%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/" title="《CLRViaC#》第14章-字符、字符串和文本处理">《CLRViaC#》第14章-字符、字符串和文本处理</a><time datetime="2022-03-29T03:18:01.000Z" title="发表于 2022-03-29 11:18:01">2022-03-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/27/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC13%E7%AB%A0-%E6%8E%A5%E5%8F%A3/" title="《CLRViaC#》第13章-接口"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《CLRViaC#》第13章-接口"/></a><div class="content"><a class="title" href="/2022/03/27/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC13%E7%AB%A0-%E6%8E%A5%E5%8F%A3/" title="《CLRViaC#》第13章-接口">《CLRViaC#》第13章-接口</a><time datetime="2022-03-27T02:33:28.000Z" title="发表于 2022-03-27 10:33:28">2022-03-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/03/20/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC12%E7%AB%A0-%E6%B3%9B%E5%9E%8B/" title="《CLRViaC#》第12章-泛型"><img src="/img/BackGround.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《CLRViaC#》第12章-泛型"/></a><div class="content"><a class="title" href="/2022/03/20/%E3%80%8ACLRViaC-%E3%80%8B%E7%AC%AC12%E7%AB%A0-%E6%B3%9B%E5%9E%8B/" title="《CLRViaC#》第12章-泛型">《CLRViaC#》第12章-泛型</a><time datetime="2022-03-20T08:42:38.000Z" title="发表于 2022-03-20 16:42:38">2022-03-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Ink</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/hexo-github-calendar@1.21/hexo_githubcalendar.js"></script>
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://python-github-calendar-api.vercel.app/api?cckt123";
+            var git_color =['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f'];
+            var git_user ="cckt123";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log('已挂载github calendar')
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        if(document.getElementById('recent-posts')){
+            GithubCalendarConfig()
+        }
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style><!-- hexo injector body_end end --></body></html>
